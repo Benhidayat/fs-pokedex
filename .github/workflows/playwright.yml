@@ -1,18 +1,23 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_run: # this workflow will be triggered if ci pipeline is succeed
+    workflows: ['Ci Pipeline']
+    types: [completed]
+
 jobs:
   test:
+    if: ${{
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.event == 'push'
+    }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
     - uses: actions/setup-node@v6
       with:
-        node-version: 'v20.20.2'
+        node-version: '20.20.2'
     - name: Check node and npm version
       run: |
         node -v
