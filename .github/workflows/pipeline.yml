@@ -23,3 +23,15 @@ jobs:
         run: npm run test
       - name: Build the frontend
         run: npm run build
+      - name: github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: commits
+        env:
+          COMMITS: ${{ toJson(github.event.commits) }}
+        run: echo "$COMMITS"
+      - name: commit message
+        env:
+          COMMIT_MESSAGE: ${{ toJson(github.event.commits.*.message) }}
+        run: echo "$COMMIT_MESSAGE"
