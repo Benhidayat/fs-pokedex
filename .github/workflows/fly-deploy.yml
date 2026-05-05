@@ -51,6 +51,7 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
           color: 0xee0000
+          content: '❌ **Build failed!** The pipeline encountered an error'
           title: '**Failure Details**'
           description: |
             **Repository:** ${{ github.repository }}
