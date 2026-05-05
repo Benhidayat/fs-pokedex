@@ -23,9 +23,9 @@ jobs:
         run: npm run test
       - name: Build the frontend
         run: npm run build
-      - name: Force failure (test only)
-        if: ${{ github.ref_name == 'test-discord' }}
-        run: exit 1
+      # - name: Force failure (test only)
+      #   if: ${{ github.ref_name == 'test-discord' }}
+      #   run: exit 1
   
   notify_failure:
     needs: [ci]
@@ -44,7 +44,7 @@ jobs:
             **Repository:** ${{ github.repository }}
             **Branch:** ${{ github.ref_name }}
             **Commit:** ${{ github.sha }}
-            **Message:** ${{ github.event.head_commit.message }}
+            **Message:** ${{ github.event.head_commit.message || github.event.pull_request.title }}
             **Author:** ${{ github.actor }}
             **Workflow:** ${{ github.workflow }}
             **Job:** ${{ github.job }}
