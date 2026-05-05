@@ -47,7 +47,7 @@ jobs:
             **Message:** ${{ github.event.head_commit.message }}
             **Author:** ${{ github.actor }}
             **Workflow:** ${{ github.workflow }}
-            **Job:** CI_pipeline
+            **Job:** ${{ github.job }}
 
             [View Commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
             [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}})
