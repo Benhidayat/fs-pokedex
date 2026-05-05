@@ -23,6 +23,9 @@ jobs:
         run: npm run test
       - name: Build the frontend
         run: npm run build
+      - name: Force failure (test only)
+        if: ${{ github.ref_name == 'test-discord' }}
+        run: exit 1
   
   notify_failure:
     needs: [ci]
