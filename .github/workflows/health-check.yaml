@@ -1,0 +1,46 @@
+name: Periodic Health Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *'
+      timezone: 'Asia/Jakarta'
+
+jobs:
+  health_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v5
+        with:
+          url: https://fs-pokedex-by-ben.fly.dev/health
+          max-attempts: 5
+          retry-delay: 5s
+
+  notify_failure:
+    needs: [health_check]
+    if: ${{ always() && needs.health_check.result == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify failure
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          color: 0xee0000
+          content: '❌ **Health Check Failed**'
+          title: '**Servie Down**'
+          description: |
+
+            **Something Went Wrong**
+
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** ${{ github.sha }}
+            **Message:** ${{ github.event.head_commit.message }}
+            **Author:** ${{ github.actor }}
+            **Workflow:** ${{ github.workflow }}
+            **Job:** deploy
+
+            [View Commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}})
