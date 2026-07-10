@@ -24,3 +24,14 @@ jobs:
 
       - name: Build the app
         run: npm run build
+
+      - name: Install e2e dependencies
+        working-directory: e2e-tests
+        run: npm ci
+      
+      - name: install playwright browsers
+        working-directory: e2e-tests
+        run: npx playwright install --with-deps
+      
+      - name: Run Playwright test
+        run: npm run test:e2e
