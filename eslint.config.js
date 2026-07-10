@@ -80,4 +80,14 @@ module.exports = [
       "react/prop-types": 0,
     },
   },
+  {
+    files: ["e2e-tests/**/*.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.node
+      },
+    },
+  },
 ];
