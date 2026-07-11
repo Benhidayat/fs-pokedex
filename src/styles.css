@@ -142,6 +142,10 @@ footer {
   text-transform: uppercase;
 }
 
+.pokemon-ability-name {
+  color: #8c5;
+}
+
 .pokemon-type-bug {
   --pokemon-type-color: #ac2;
 }
