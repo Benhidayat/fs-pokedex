@@ -42,7 +42,7 @@ jobs:
         run: npm run test:e2e
       
   deploy:
-    if: ${{ github.event.name == 'push' }}
+    if: ${{ github.event_name == 'push' }}
     needs: simple_deployment_pipeline
     runs-on: ubuntu-latest
     steps:
