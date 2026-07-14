@@ -41,6 +41,11 @@ jobs:
       - name: Run Playwright test
         run: npm run test:e2e
       
+      - name: Debug commits
+        run: |
+          echo "Messages"
+          echo "${{ join(github.event.commits.*.message, ' | ')}}"
+
   deploy:
     if: ${{ github.event_name == 'push' }}
     needs: simple_deployment_pipeline
@@ -57,7 +62,7 @@ jobs:
   
   tag_release:
     needs: deploy
-    if: ${{ github.event_name == 'push' && !contains(join(github.event.commit.*.message), '#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
